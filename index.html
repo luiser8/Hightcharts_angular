@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html ng-app="myModule">
+<head>
+    <script src="js/angular.min.js"></script>
+    <script src="js/highcharts.js"></script>
+</head>
+<body ng-controller="myController">
+    <div id="container">Placeholder for chart</div>
+    <script>
+    	angular.module('myModule', [])
+    		.controller('myController', function ($scope, $http) {
+
+		        $http({
+		          method: 'GET',
+		          url: 'api/data.json',       
+		        }).then( function(response) {
+		            $scope.usuarios = response.data;
+		            console.log(response.status);
+
+		            //Highcharts
+					Highcharts.chart('container', {
+					chart:{
+						type:'column', //column
+						animation: Highcharts.svg,
+						marginRight: 10
+						// events: {
+			   //              load: function () {
+
+			   //                  // set up the updating of the chart each second
+			   //                  var series = this.series[0];
+			   //                  setInterval(function () {
+			   //                      var x = (new Date()).getTime(), // current time
+			   //                          y = Math.random();
+			   //                      series.addPoint([x, y], true, true);
+			   //                  }, 1000);
+			   //              }
+      //       			} 
+					},
+				    xAxis: {
+				        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+				            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+				    },
+				    yAxis: {
+			            title: {
+			                text: 'Data'
+			            }
+			        },
+				    series: [{
+				        data: response.data
+				    }]
+				});
+
+		    });			
+
+	});
+    </script>
+</body>
+</html>
